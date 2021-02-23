@@ -19,7 +19,7 @@ class Grid{
       Spot* at(int row, int col);
       bool equals(Grid* other);
       bool isEmpty();
-      void printToFile(string fileName);
+      void printToFile(string fileName, int genNumber);
    private:
       Spot** mGrid;
       int mNumRows;

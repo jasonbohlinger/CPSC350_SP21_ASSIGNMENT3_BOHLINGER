@@ -17,6 +17,7 @@ int main(){
    string userInput;
    NeighborCounting* n = new NeighborCounting;
    PastGenerations* p = new PastGenerations;
+   cout << endl << "Welcome to the game of life!" << endl;
    cout << "Enter (1) to import a map file for the world." << endl;
    cout << "Enter (2) to use random assignment." << endl;
    cin >> worldType;
@@ -62,15 +63,32 @@ int main(){
       cout << "Enter the number of columns you would like (width): " << endl;
       cin >> cols;
       aGrid = new Grid(rows, cols);
-      cout << "Enter the population density you would like: " << endl;
+      cout << "Enter the population density you would like (between 0 and 1): " << endl;
       float density;
       cin >> density;
+      if(density < 0 || density > 1){
+         cout << "Invalid input" << endl;
+         return -1;
+      }
       aGrid->populate(density);
    } else{
       cout << "Invalid input" << endl;
       return -1;
    }
+   string countingMethod;
+   cout << "Enter (1) to count with the mirror mode" << endl;
+   cout << "Enter (2) to count with the doughnut mode" << endl;
+   cin >> countingMethod;
+   if(countingMethod == "1"){
+      countingMethod = "mirror";
+   } else if(countingMethod == "2"){
+      countingMethod = "doughnut";
+   } else{
+      cout << "Invalid input" << endl;
+      return -1;
+   }
    bool printToFile = false;
+   string fileName;
    bool automatic = false;
    cout << "Enter (1) to pause between generations on console" << endl;
    cout << "Enter (2) to progress automatically on console" << endl;
@@ -84,6 +102,8 @@ int main(){
    } else if(userInput == "3"){
       automatic = true;
       printToFile = true;
+      cout << "Enter the filename you want to print to" << endl;
+      cin >> fileName;
       userInput = "";
    } else{
       cout << "Invalid input" << endl;
@@ -95,13 +115,21 @@ int main(){
    }
    int generationNumber = 0;
    p->append(aGrid);
-   n->countNeighborsNormal(aGrid);
+   if(countingMethod == "mirror"){
+      n->countNeighborsMirror(aGrid);
+   } else{
+      n->countNeighborsDoughnut(aGrid);
+   }
    Grid* bGrid = new Grid(rows, cols);
    Grid* cGrid = new Grid(rows, cols);
    Grid* dGrid = new Grid(rows, cols);
    if(userInput.size() == 0){
       cout << "Generation: " << generationNumber << endl;
-      aGrid->print();
+      if(printToFile){
+         aGrid->printToFile(fileName, 0);
+      } else{
+         aGrid->print();
+      }
       for(int r = 0; r < aGrid->getNumRows(); ++r){
          for(int c = 0; c < aGrid->getNumCol(); ++c){
             float numNeighbors = p->getAvgNeighbors(r, c);
@@ -126,12 +154,20 @@ int main(){
    }
    if(userInput.size() == 0){
       cout << "Generation: " << ++generationNumber << endl;
-      bGrid->print();
+      if(printToFile){
+         bGrid->printToFile(fileName, 1);
+      } else{
+         bGrid->print();
+      }
       if(bGrid->isEmpty()){
          cout << "Finished game of life. Reason: empty map" << endl;
          return 0;
       }
-      n->countNeighborsNormal(bGrid);
+      if(countingMethod == "mirror"){
+         n->countNeighborsMirror(bGrid);
+      } else{
+         n->countNeighborsDoughnut(bGrid);
+      }
       p->append(bGrid);
       for(int r = 0; r < aGrid->getNumRows(); ++r){
          for(int c = 0; c < aGrid->getNumCol(); ++c){
@@ -157,12 +193,20 @@ int main(){
    }
    if(userInput.size() == 0){
       cout << "Generation: " << ++generationNumber << endl;
-      cGrid->print();
+      if(printToFile){
+         cGrid->printToFile(fileName, 2);
+      } else{
+         cGrid->print();
+      }
       if(cGrid->isEmpty()){
          cout << "Finished game of life. Reason: empty map" << endl;
          return 0;
       }
-      n->countNeighborsNormal(cGrid);
+      if(countingMethod == "mirror"){
+         n->countNeighborsMirror(cGrid);
+      } else{
+         n->countNeighborsDoughnut(cGrid);
+      }
       p->append(cGrid);
    } else{
       return -1;
@@ -172,9 +216,6 @@ int main(){
    if(!automatic){
       getline(cin, userInput);
    }
-   n->countNeighborsNormal(aGrid);
-   n->countNeighborsNormal(bGrid);
-   n->countNeighborsNormal(cGrid);
    bool isOscillating = false;
    bool isStable = false;
    bool isEmpty = false;
@@ -199,11 +240,16 @@ int main(){
          }
       }
       isEmpty = p->get(p->size() - 1)->isEmpty();
-      //if(isEmpty){
-         //break;
-      //}
-      p->get(p->size() - 1)->print();
-      n->countNeighborsNormal(p->get(p->size() - 1));
+      if(printToFile){
+         p->get(p->size() - 1)->printToFile(fileName, generationNumber);
+      } else{
+         p->get(p->size() - 1)->print();
+      }
+      if(countingMethod == "mirror"){
+         n->countNeighborsMirror(p->get(p->size() - 1));
+      } else{
+         n->countNeighborsDoughnut(p->get(p->size() - 1));
+      }
       
       //check for stability:
       if(p->get(p->size() - 1)->equals(p->get(p->size() - 2)) &&
@@ -236,6 +282,7 @@ int main(){
    } else{
       cout << "user input ended game" << endl;
    }
+   
    delete aGrid;
    delete bGrid;
    delete cGrid;

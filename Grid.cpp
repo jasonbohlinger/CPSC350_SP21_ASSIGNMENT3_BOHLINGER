@@ -1,6 +1,7 @@
 #include <iostream>
 #include <stdlib.h>
 #include <time.h>
+#include <fstream>
 #include "Grid.h"
 using namespace std;
 
@@ -64,8 +65,25 @@ void Grid::print(){
    cout << endl << endl;
 }
 
-void Grid::printToFile(string fileName){
-   
+void Grid::printToFile(string fileName, int genNumber){
+   ofstream oStream;
+   oStream.open(fileName, ios_base::app);
+   if(!oStream.is_open()){
+      cout << "Unable to open " << fileName << "." << endl;
+   }
+   oStream << "Generation " << genNumber << ":" << endl;
+   for(int row = 0; row < mNumRows; ++row){
+      for(int col = 0; col < mNumCol; ++col){
+         if(mGrid[row][col].getIsOccupied()){
+            oStream << "X";
+         } else{
+            oStream << "-";
+         }
+      }
+      oStream << endl;
+   }
+   oStream << endl << endl;
+   oStream.close();
 }
 
 void Grid::reset(){
