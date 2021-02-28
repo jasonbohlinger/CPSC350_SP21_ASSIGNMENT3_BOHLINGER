@@ -7,11 +7,11 @@ using namespace std;
 
 class NeighborCounting{
    public:
-      NeighborCounting();
-      ~NeighborCounting();
-      void countNeighborsNormal(Grid* grid);
-      void countNeighborsDoughnut(Grid* grid);
-      void countNeighborsMirror(Grid* grid);
+      NeighborCounting(); // Default constructor
+      ~NeighborCounting(); // Destructor
+      void countNeighborsNormal(Grid* grid); // Counting neighbors in normal mode
+      void countNeighborsDoughnut(Grid* grid); // Counting neighbors in doughnut mode
+      void countNeighborsMirror(Grid* grid); // Counting neighbors in mirror mode
    private:
 };
 

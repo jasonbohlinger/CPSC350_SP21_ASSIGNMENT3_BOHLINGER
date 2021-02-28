@@ -2,6 +2,7 @@
 #include "Spot.h"
 using namespace std;
 
+//Default constructor setting an empty spot with -1 neighbors
 Spot::Spot(){
    mIsOccupied = false;
    mNumNeighbors = -1;
