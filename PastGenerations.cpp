@@ -1,4 +1,5 @@
 #include <iostream>
+#include <vector>
 #include "PastGenerations.h"
 #include "NeighborCounting.h"
 using namespace std;
@@ -25,12 +26,8 @@ int PastGenerations::size(){
    return generations.size();
 }
 
-void PastGenerations::move(int oldIndex, int newIndex){
-   if(oldIndex > newIndex){
-      rotate(generations.rend() - oldIndex - 1, generations.rend() - oldIndex, generations.rend() - newIndex);
-   } else{
-      rotate(generations.begin() + oldIndex, generations.begin() + oldIndex + 1, generations.begin() + newIndex + 1);
-   }
+void PastGenerations::move0ToEnd(){
+   rotate(generations.begin(), generations.begin() + 1, generations.end());
 }
 
 float PastGenerations::getAvgNeighbors(int row, int col){

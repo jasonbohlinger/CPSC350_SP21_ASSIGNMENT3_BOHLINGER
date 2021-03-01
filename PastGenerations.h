@@ -13,7 +13,7 @@ class PastGenerations{
       void append(Grid* g); // Appends a grid to the end of generations
       Grid* get(int pos); // Returns the Grid* at a given position in generations
       int size(); // Returns the size of generations
-      void move(int oldIndex, int newIndex); //Moves element at oldIndex to newIndex
+      void move0ToEnd(); //Moves element at index 
       float getAvgNeighbors(int row, int col); // Gets the average neighbors for a certain spot
    private:
       vector<Grid*> generations; // Vector holding Grid* objects representing prior generations

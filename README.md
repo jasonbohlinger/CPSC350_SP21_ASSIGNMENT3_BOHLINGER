@@ -3,7 +3,7 @@
 Jason Bohlinger
 2364725
 
-PastGenerations::move function found from StackOverflow: https://stackoverflow.com/questions/45447361/how-to-move-certain-elements-of-stdvector-to-a-new-index-within-the-vector
+PastGenerations::move0ToEnd function found on StackOverflow https://stackoverflow.com/questions/37901353/how-can-i-move-an-element-to-the-end-of-a-vector
 
 
 The PastGenerations class has a private vector that holds pointers to Grid objects.
