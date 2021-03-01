@@ -50,7 +50,7 @@ int main(){
       string line;
       while(!input.fail()){
          getline(input, line); // Grab grid input one line at a time
-         if(line.size() != 0){
+         if(line.size() != 0 && gridRowArrow < rows){
             for(int i = 0; i < cols; ++i){
                //Looping through the line, if there is an 'X',
                //Set the current spot to occupied
@@ -329,7 +329,8 @@ int main(){
       //Move the oldest generation (position 0 of PastGenerations' vector)
       //to the end of the vector to modify that grid as the new grid.
       //This enables PastGenerations to hold the new grid and the 3 grids prior to it. 
-      p->move(0, p->size() - 1);
+      p->move0ToEnd();
+      
       if(!automatic){
          getline(cin, userInput);
       }
