@@ -94,8 +94,8 @@ int main(){
       return -1;
    }
    string countingMethod;
-   //Prompt the user for a counting method (normal, mirror, or doughnut)
-   cout << "Enter (1) to count with the normal mode" << endl;
+   //Prompt the user for a counting method (classic, mirror, or doughnut)
+   cout << "Enter (1) to count with the classic mode" << endl;
    cout << "Enter (2) to count with the mirror mode" << endl;
    cout << "Enter (3) to count with the doughnut mode" << endl;
    cin >> countingMethod;

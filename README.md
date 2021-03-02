@@ -11,4 +11,7 @@ The PastGenerations class has a private vector that holds pointers to Grid objec
     generation is kept as position 0. Modifying the oldest (and now unneeded) Grid is
     is done by moving it to the end of the vector and making the necessary modifications
     based on the average neighbor counts of the prior 3 grids.
+    
+    
+"Classic mode" for counting neighbors is also referred to as "normal mode"
 
