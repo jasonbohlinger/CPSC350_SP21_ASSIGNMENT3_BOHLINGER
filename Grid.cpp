@@ -100,6 +100,9 @@ void Grid::printToFile(string fileName, int genNumber){
       oStream << endl;
    }
    oStream << endl << endl;
+   if(genNumber == 1000){
+      oStream << "Simulation stopped writing to file. Reason: infinite loop" << endl;
+   }
    //close the stream
    oStream.close();
 }

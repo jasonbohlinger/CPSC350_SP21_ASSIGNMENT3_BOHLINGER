@@ -197,7 +197,12 @@ int main(){
       }
       if(bGrid->isEmpty()){
          cout << "Finished game of life. Reason: empty map" << endl;
-         return 0;
+         cout << "Press 'enter' to exit program.";
+         cin.ignore();
+         getline(cin, userInput);
+         if(userInput.size() == 0){
+            return 0;
+         }
       }
       if(countingMethod == "mirror"){
          n->countNeighborsMirror(bGrid);
@@ -239,7 +244,12 @@ int main(){
       }
       if(cGrid->isEmpty()){
          cout << "Finished game of life. Reason: empty map" << endl;
-         return 0;
+         cout << "Press 'enter' to exit program.";
+         cin.ignore();
+         getline(cin, userInput);
+         if(userInput.size() == 0){
+            return 0;
+         }
       }
       if(countingMethod == "mirror"){
          n->countNeighborsMirror(cGrid);
@@ -257,12 +267,13 @@ int main(){
    if(!automatic){
       getline(cin, userInput);
    }
+
+   //Predefining boolean values for while loop
    bool isOscillating = false;
    bool isStable = false;
    bool isEmpty = false;
-
    //As long as the generations are not stable, oscillating, or empty
-   //and as long as the user hits enter if the program is not automatic
+   //and as long as the user hits 'enter'if the program is not automatic
    while(!isStable && !isOscillating && !isEmpty && userInput.size() == 0){
       cout << "Generation: " << ++generationNumber << endl;
       for(int r = 0; r < aGrid->getNumRows(); ++r){
@@ -289,9 +300,14 @@ int main(){
          }
       }
       isEmpty = p->get(p->size() - 1)->isEmpty();
+      
       if(printToFile){
          //Print the latest generation to the file
          p->get(p->size() - 1)->printToFile(fileName, generationNumber);
+         if(generationNumber == 1000){
+            cout << "Simulation stopped writing to file. Reason: infinite loop" << endl;
+            break;
+         }
       } else{
          //Print the latest generation to console
          p->get(p->size() - 1)->print();
@@ -337,15 +353,14 @@ int main(){
    }
    
    //Let the user know why the game finished
-   cout << "Finished game of life. Reason: ";
    if(isStable){
-      cout << "stable map" << endl;
+      cout << "Finished game of life. Reason: stable map" << endl;
    } else if(isOscillating){
-      cout << "oscillating map" << endl;
+      cout << "Finished game of life. Reason: oscillating map" << endl;
    } else if(isEmpty){
-      cout << "empty map" << endl;
-   } else{
-      cout << "user input ended game" << endl;
+      cout << "Finished game of life. Reason: empty map" << endl;
+   } else if(userInput.size() != 0){
+      cout << "Finished game of life. Reason: user input ended game" << endl;
    }
 
    //Garbage collection
@@ -355,4 +370,11 @@ int main(){
    delete dGrid;
    delete n;
    delete p;
+
+   cout << endl << "Press 'enter' to exit program";
+   cin.ignore();
+   getline(cin, userInput);
+   if(userInput.size() == 0){
+      return 0;
+   }
 }
